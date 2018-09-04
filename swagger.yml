@@ -1,0 +1,143 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger ReST Article
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /speed:
+    get:
+      operationId: speed.read_all
+      tags:
+        - People
+      summary: Read the entire list of speed
+      description: Read the list of speed
+      parameters:
+        - name: length
+          in: query
+          type: integer
+          description: Number of speed to get from speed
+          required: false
+        - name: offset
+          in: query
+          type: integer
+          description: Offset from beginning of list where to start gathering speed
+          required: false
+      responses:
+        200:
+          description: Successfully read speed list operation
+          schema:
+            type: array
+            items:
+              properties:
+                hostname:
+                  type: string
+                download:
+                  type: string
+                upload:
+                  type: string
+                timestamp:
+                  type: string
+
+    post:
+      operationId: speed.create
+      tags:
+        - speed
+      summary: Create a host and add it to the speed list
+      description: Create a new host in the speed list
+      parameters:
+        - name: host
+          in: body
+          description: Host to create
+          required: True
+          schema:
+            type: object
+            properties:
+              hostname:
+                type: string
+                description: Hostname of host to create
+              download:
+                type: string
+                description: Download speed of host to create
+              upload:
+                type: string
+                description: Upload speed of host to create
+      responses:
+        201:
+          description: Successfully created host in list
+
+  /speed/{hostname}:
+    get:
+      operationId: speed.read_one
+      tags:
+        - speed
+      summary: Read one host from the speed list
+      description: Read one host from the speed list
+      parameters:
+        - name: hostname
+          in: path
+          description: Last name of the host to get from the list
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read host from speed list operation
+          schema:
+            properties:
+              hostname:
+                type: string
+              download:
+                type: string
+              upload:
+                type: string
+              timestamp:
+                type: string
+
+    put:
+      operationId: speed.update
+      tags:
+        - speed
+      summary: Update a host in the speed list
+      description: Update a host in the speed list
+      parameters:
+        - name: hostname
+          in: path
+          description: Last name of the host to update in the list
+          type: string
+          required: True
+        - name: host
+          in: body
+          schema:
+            type: object
+            properties:
+              hostname:
+                type: string
+              download:
+                type: string
+              upload:
+                type: string
+      responses:
+        200:
+          description: Successfully updated host in speed list
+
+    delete:
+      operationId: speed.delete
+      tags:
+        - speed
+      summary: Delete a host from the speed list
+      description: Delete a host
+      parameters:
+        - name: hostname
+          in: path
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully deleted a host from speed list
