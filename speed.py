@@ -1,5 +1,10 @@
+"""
+This is the speed module that supports all the REST actions for the SPEED collection
+"""
+
 # System modules
 from datetime import datetime
+import os
 
 # 3rd party modules
 from flask import (
@@ -8,14 +13,12 @@ from flask import (
 )
 
 import google.cloud.exceptions
-
 import firebase_admin
 from firebase_admin import (
     credentials,
     firestore
 )
 
-import os
 
 f = open("serviceaccount.json", "w")
 f.write(os.environ.get('SERVICEACCOUNT'))
@@ -61,6 +64,13 @@ SPEED = {
 
 
 def read_all():
+    """
+    This function responds to a request for /api/speed
+    with the complete lists of hosts
+
+    :return:    json string of list of hosts
+    """
+
     HOSTS_REF = db.collection(u'speed')
     HOSTS = HOSTS_REF.get()
     return [u'{} => {}'.format(host.id,host.to_dict()) for host in sorted(HOSTS)]
