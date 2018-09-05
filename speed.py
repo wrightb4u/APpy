@@ -7,13 +7,14 @@ from flask import (
     abort
 )
 
-import firebase_admin
 from firebase_admin import (
     credentials,
     firestore
 )
 
-cred = credentials.Certificate('./serviceaccount.json')
+import os
+
+cred = credentials.Certificate(os.environ.get('serviceaccount'))
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
