@@ -54,7 +54,7 @@ paths:
       description: Create a new host in the speed list
       parameters:
         - name: host
-          in: body
+          in: query
           description: Host to create
           required: True
           schema:
