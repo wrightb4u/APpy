@@ -79,19 +79,22 @@ def create(host):
     download = host.get('download', None)
     upload = host.get('upload', None)
 
-    if hostname not in SPEED and hostname is not None:
-        SPEED[hostname] = {
-            'hostname': hostname,
-            'download': download,
-            'upload': upload,
-            "timestamp": get_timestamp()
+    doc_ref = db.collection(u'speed').document(hostname)
+
+    try:
+        doc = doc_ref.get()
+        abort(406, 'Host with hostname {hostname} already exists'.format(hostname=hostname))
+    except google.cloud.exceptions.NotFound:
+        print(u'No such document!')
+        data = {
+            u'hostname': hostname,
+            u'download': download,
+            u'upload': upload,
+            u'timestamp': get_timestamp()
         }
+        db.collection(u'speed').document(hostname).set(data)
         return make_response('{hostname} successfully created'.format(
             hostname=hostname), 201)
-
-    else:
-        abort(406, 'Host with hostname {hostname} already exists'.format(
-            hostname=hostname))
 
 
 def update(hostname, host):
