@@ -84,8 +84,10 @@ def create(host):
     download = host.get('download', None)
     upload = host.get('upload', None)
 
+    # Get hostname from Firestore
     doc_ref = db.collection(u'speed').document(hostname)
 
+    # If hostname exists, through 406 error, else, create the host
     try:
         doc = doc_ref.get()
         abort(406, 'Host with hostname {hostname} already exists'.format(hostname=hostname))
