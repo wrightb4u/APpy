@@ -14,7 +14,11 @@ from firebase_admin import (
 
 import os
 
-cred = credentials.Certificate(os.environ.get('serviceaccount'))
+f = open("serviceaccount.json", "a")
+f.write(os.environ.get('serviceaccount'))
+f.close()
+
+cred = credentials.Certificate('./serviceaccount')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
