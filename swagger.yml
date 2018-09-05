@@ -16,7 +16,7 @@ paths:
     get:
       operationId: speed.read_all
       tags:
-        - People
+        - speed
       summary: Read the entire list of speed
       description: Read the list of speed
       parameters:

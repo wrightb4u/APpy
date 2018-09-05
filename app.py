@@ -10,11 +10,9 @@ app.add_api('swagger.yml')
 # Create a URL route to this resource
 @app.route('/')
 
+# This function just responds to the browser URL localhost:8080 and returns
+# the rendered template: 'home.html'
 def home():
-    """
-    This function just responds to the browser URL localhost:8080/
-    :return:    the rendered template 'home.html'
-    """
     return render_template("home.html")
 
 if __name__ == '__main__':
