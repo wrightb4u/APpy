@@ -7,6 +7,8 @@ from flask import (
     abort
 )
 
+import google.cloud.exceptions
+
 import firebase_admin
 from firebase_admin import (
     credentials,
@@ -64,12 +66,13 @@ def read_all():
     return [u'{} => {}'.format(host.id,host.to_dict()) for host in sorted(HOSTS)]
 
 def read_one(hostname):
-    if hostname in SPEED:
-        host = SPEED.get(hostname)
-
-    else:
-        abort(404, 'Host with last name {hostname} not found'.format(
-            hostname=hostname))
+    doc_ref = db.collection(u'speed').document(hostname)
+    try:
+        host = doc_ref.get()
+        return [u'{} => {}'.format(host.id,host.to_dict())]
+    except google.cloud.exceptions.NotFound:
+        print(u'No such document!')
+        abort(404, 'Host with hostname {hostname} not found'.format(hostname=hostname))
 
     return host
 
