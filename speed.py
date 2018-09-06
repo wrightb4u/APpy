@@ -89,6 +89,7 @@ def create(host):
 
     if key != os.environ.get('KEY'):
         abort(403, 'Access Denied')
+        print('KEY')
     # If hostname exists, through 406 error, else, create the host
     try:
         doc = doc_ref.get()
