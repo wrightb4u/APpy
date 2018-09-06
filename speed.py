@@ -83,10 +83,12 @@ def create(host):
     hostname = host.get('hostname', None)
     download = host.get('download', None)
     upload = host.get('upload', None)
-
+    key = host.get('key', None)
     # Get hostname from Firestore
     doc_ref = db.collection(u'speed').document(hostname)
 
+    if key != os.environ.get('KEY'):
+        abort(403, 'Access Denied')
     # If hostname exists, through 406 error, else, create the host
     try:
         doc = doc_ref.get()
