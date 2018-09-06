@@ -63,7 +63,7 @@ SPEED = {
 def read_all():
     HOSTS_REF = db.collection(u'speed')
     HOSTS = HOSTS_REF.get()
-    return [u'{} => {}'.format(host.id,host.to_dict()) for host in sorted(HOSTS)]
+    return [u'{} => {}'.format(host.id,host.to_dict()) for host in HOSTS]
 
 # This function responds to a request for /api/speed/{hostname} with a json
 # string of the host (if one exists) or a 404 if the host does not exist
@@ -92,7 +92,6 @@ def create(host):
         doc = doc_ref.get()
         abort(406, 'Host with hostname {hostname} already exists'.format(hostname=hostname))
     except google.cloud.exceptions.NotFound:
-        print(u'No such document!')
         data = {
             u'hostname': hostname,
             u'download': download,

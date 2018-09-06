@@ -55,20 +55,17 @@ paths:
       parameters:
         - name: host
           in: body
-          description: Host to create
+          description: The host to create
           required: True
           schema:
             type: object
             properties:
               hostname:
                 type: string
-                description: Hostname of host to create
               download:
                 type: string
-                description: Download speed of host to create
               upload:
                 type: string
-                description: Upload speed of host to create
       responses:
         201:
           description: Successfully created host in list
